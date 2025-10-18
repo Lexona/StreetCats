@@ -1,0 +1,15 @@
+import {DataTypes} from "sequelize";
+
+export function createModel(database) {
+  database.define("Commento", {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    text: {
+      type: DataTypes.TEXT,
+      allowNUll: false
+    }
+  });
+}
