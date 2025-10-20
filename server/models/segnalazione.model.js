@@ -1,7 +1,7 @@
 import {DataTypes} from "sequelize";
 
 export function createModel(database) {
-  database.define('Gatto', {
+  database.define('Segnalazione', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,

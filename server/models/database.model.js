@@ -1,6 +1,6 @@
 import {Sequelize} from "sequelize";
 import {createModel as createUserModel} from "./utente.model.js";
-import {createModel as createCatModel} from "./gatto.model.js";
+import {createModel as createSignalModel} from "./segnalazione.model.js";
 import {createModel as createCommentModel} from "./commento.model.js";
 import 'dotenv/config.js';
 
@@ -18,17 +18,17 @@ export const database = new Sequelize (
 );
 
 createUserModel(database);
-createCatModel(database);
+createSignalModel(database);
 createCommentModel(database);
 
-export const {Utente, Gatto, Commento} = database.models;
+export const {Utente, Segnalazione, Commento} = database.models;
 
 // associazioni
-Utente.hasMany(Gatto);
-Gatto.belongsTo(Utente);
+Utente.hasMany(Segnalazione);
+Segnalazione.belongsTo(Utente);
 
-Gatto.hasMany(Commento);
-Commento.belongsTo(Gatto);
+Segnalazione.hasMany(Commento);
+Commento.belongsTo(Segnalazione);
 
 Utente.hasMany(Commento);
 Commento.belongsTo(Utente);
