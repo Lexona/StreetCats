@@ -5,8 +5,11 @@ import morgan from "morgan";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 
+import cookieParser from 'cookie-parser';
+
 import 'dotenv/config.js';
 import {database} from './models/database.model.js';
+import { autenticazioneRouter } from "./routes/autenticazione.router.js";
 
 
 const app = express();
@@ -15,6 +18,7 @@ const PORT = 3000;
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 // route di prova
 app.get('/', (request, response) => {
@@ -25,8 +29,8 @@ app.get('/', (request, response) => {
 app.use((error, request, response, next) => {
   console.log(error.stack);
   response.status(error.status || 500).json({
-    code: err.status || 500,
-    description: err.message || "C'è stato un errore."
+    code: error.status || 500,
+    description: error.message || "C'è stato un errore."
   });
 });
 
@@ -41,6 +45,10 @@ const swagger = swaggerJSDoc({
   },
   apis: ['./routes/*Router.js'],
 });
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swagger));
+
+app.use(autenticazioneRouter);
 
 // sincronizzazione e avvio del server
 database.sync({alter: true})

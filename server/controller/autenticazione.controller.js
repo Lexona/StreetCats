@@ -20,7 +20,7 @@ export class AutenticazioneController {
       }
     });
 
-    return trovato !== null;
+    return trovato;
   }
 
   // creazione di un nuovo utente

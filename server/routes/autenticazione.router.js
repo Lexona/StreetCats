@@ -99,7 +99,7 @@ autenticazioneRouter.post("/iscrizione", (request, response, next) => {
  *      - application/json
  *    parameters:
  *      - in: cookie
- *      name: refreshToken
+ *      name: Token di Aggiornamento
  *      description: Il Token di Aggiornamento (impostato automaticamente dal browser).
  *      required: true
  *       schema:
@@ -116,7 +116,7 @@ autenticazioneRouter.post("/iscrizione", (request, response, next) => {
  *              type: string
  *              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6..."
  *            '401':
- *              description: Refresh Token non fornito, non valido o scaduto.
+ *              description: Token di Aggiornamento non fornito, non valido o scaduto.
  *     content:
  *        application/json:
  *          schema:
@@ -124,7 +124,7 @@ autenticazioneRouter.post("/iscrizione", (request, response, next) => {
  *            properties:
  *              errore:
  *                type: string
- *                example: "Refresh Token non trovato."
+ *                example: "Token di Aggiornamento non trovato."
  */
 
 autenticazioneRouter.post("/aggiornamento", (request, response) => {
