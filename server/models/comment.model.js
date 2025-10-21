@@ -1,7 +1,7 @@
 import {DataTypes} from "sequelize";
 
 export function createModel(database) {
-  database.define("Commento", {
+  database.define("Comment", {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -9,7 +9,7 @@ export function createModel(database) {
     },
     text: {
       type: DataTypes.TEXT,
-      allowNUll: false
+      allowNull: false
     }
   });
 }

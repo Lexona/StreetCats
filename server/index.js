@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser';
 
 import 'dotenv/config.js';
 import {database} from './models/database.model.js';
-import { autenticazioneRouter } from "./routes/autenticazione.router.js";
+import { authenticationRouter } from "./routes/authentication.router.js";
 
 
 const app = express();
@@ -20,12 +20,12 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-// route di prova
+// test route
 app.get('/', (request, response) => {
   response.send("prova");
 });
 
-// gestore degli errori 
+// error handler 
 app.use((error, request, response, next) => {
   console.log(error.stack);
   response.status(error.status || 500).json({
@@ -34,7 +34,7 @@ app.use((error, request, response, next) => {
   });
 });
 
-// inizializzazione di swagger-jsdoc
+// initialization of swagger-jsdoc
 const swagger = swaggerJSDoc({
   definition: {
     openapi: '3.1.0',
@@ -48,9 +48,9 @@ const swagger = swaggerJSDoc({
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swagger));
 
-app.use(autenticazioneRouter);
+app.use(authenticationRouter);
 
-// sincronizzazione e avvio del server
+// server synchronization and startup
 database.sync({alter: true})
   .then(() => {
     console.log('Database sincronizzato correttamente.');

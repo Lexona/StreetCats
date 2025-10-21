@@ -1,8 +1,8 @@
-import DataTypes from "sequelize";
+import {DataTypes} from "sequelize";
 import { createHash } from "crypto";
 
 export function createModel(database){
-  database.define('Utente', {
+  database.define('User', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,

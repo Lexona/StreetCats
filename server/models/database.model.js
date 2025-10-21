@@ -1,7 +1,7 @@
 import {Sequelize} from "sequelize";
-import {createModel as createUserModel} from "./utente.model.js";
-import {createModel as createSignalModel} from "./segnalazione.model.js";
-import {createModel as createCommentModel} from "./commento.model.js";
+import {createModel as createUserModel} from "./user.model.js";
+import {createModel as createSignalModel} from "./signal.model.js";
+import {createModel as createCommentModel} from "./comment.model.js";
 import 'dotenv/config.js';
 
 // connessione al database
@@ -21,14 +21,14 @@ createUserModel(database);
 createSignalModel(database);
 createCommentModel(database);
 
-export const {Utente, Segnalazione, Commento} = database.models;
+export const {User, Signal, Comment} = database.models;
 
 // associazioni
-Utente.hasMany(Segnalazione);
-Segnalazione.belongsTo(Utente);
+User.hasMany(Signal);
+Signal.belongsTo(User);
 
-Segnalazione.hasMany(Commento);
-Commento.belongsTo(Segnalazione);
+Signal.hasMany(Comment);
+Comment.belongsTo(Signal);
 
-Utente.hasMany(Commento);
-Commento.belongsTo(Utente);
+User.hasMany(Comment);
+Comment.belongsTo(User);
