@@ -7,18 +7,22 @@ export function createModel(database) {
       primaryKey: true,
       autoIncrement: true
     },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     description: {
       type: DataTypes.TEXT
     },
-    foto_url: {
+    photo_url: {
       type: DataTypes.TEXT,
       allowNull: false
     }, 
-    latitudine: {
+    latitude: {
       type: DataTypes.DECIMAL(9,6),
       allowNull: false
     }, 
-    longitudine: {
+    longitude: {
       type: DataTypes.DECIMAL(9,6),
       allowNull: false
     }

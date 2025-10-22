@@ -37,7 +37,7 @@ export class AuthenticationController {
    * @param {object} username
    */
   static issueAccessToken(payload){
-    return Jwt.sign({user: payload}, process.env.TOKEN_SECRET, {expiresIn: '15m'});
+    return Jwt.sign(payload, process.env.TOKEN_SECRET, {expiresIn: '15m'});
   }
 
   /**
@@ -52,7 +52,7 @@ export class AuthenticationController {
    * @param {object} username
    */
   static issueRefreshToken(payload) {
-    return Jwt.sign({user: payload}, process.env.TOKEN_SECRET_AGGIORNAMENTO, { expiresIn: '7d' });
+    return Jwt.sign(payload, process.env.TOKEN_SECRET_AGGIORNAMENTO, { expiresIn: '7d' });
   }
 
   /**

@@ -10,15 +10,15 @@ export function applyAuthentication(request, response, next) {
   const token = authHeader?.split(' ')[1];
 
   if (!token) {
-    next({status: 401, message: "Non autorizzato."});
-    return;
+    return next({status: 401, message: "Non autorizzato."});
   }
 
-  AuthenticationController.checkAccessToken(token, (errore, decodedToken) => {
-    if(errore) {
-      next({status: 401, message: "Non autorizzato."});
+  AuthenticationController.checkAccessToken(token, (error, decodedToken) => {
+    if(error) {
+      return next({status: 401, message: "Non autorizzato."});
     } else {
-      request.username = decodedToken.user;
+      request.userId = decodedToken.id;
+      request.username = decodedToken.user;     // non so se serve
       next();
     }
   });

@@ -9,7 +9,9 @@ import cookieParser from 'cookie-parser';
 
 import 'dotenv/config.js';
 import {database} from './models/database.model.js';
+
 import { authenticationRouter } from "./routes/authentication.router.js";
+import { signalRouter } from "./routes/signal.router.js";
 
 
 const app = express();
@@ -49,6 +51,7 @@ const swagger = swaggerJSDoc({
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swagger));
 
 app.use(authenticationRouter);
+app.use("/signals", signalRouter);
 
 // server synchronization and startup
 database.sync({alter: true})
