@@ -12,6 +12,7 @@ import {database} from './models/database.model.js';
 
 import { authenticationRouter } from "./routes/authentication.router.js";
 import { signalRouter } from "./routes/signal.router.js";
+import { commentRouter } from "./routes/comment.router.js";
 
 
 const app = express();
@@ -52,6 +53,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swagger));
 
 app.use(authenticationRouter);
 app.use("/signals", signalRouter);
+app.use("/comments", commentRouter);
 
 // server synchronization and startup
 database.sync({alter: true})
