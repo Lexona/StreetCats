@@ -6,9 +6,17 @@
       StreetCats
     </div>
 
-    <div class="action-container">
+    <div class="action-container" [class.logged-in]="authService.isAuthenticated()">
       <a href="">Segnala</a>
-      <button class="access-button" routerLink="/login">Accedi</button>
+
+      @if (authService.isAuthenticated()) {
+        <span class="welcome-text">
+          Ciao, <strong>{{ authService.currentUser()?.userName }}</strong>!
+        </span>
+        <button class="logout-button" (click)="onLogout()">Logout</button>
+      } @else {
+        <button class="access-button" routerLink="/login">Accedi</button>
+      }
     </div>  
   </div>
 </header>

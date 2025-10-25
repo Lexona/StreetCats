@@ -32,6 +32,14 @@ $base-color: rgb(254,252,234);
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  &.logged-in {
+    width: 350px; // dimensione quando loggato
+  }
+}
+
+.welcome-text {
+  font-size: 18px;
 }
 
 .action-container a:link {
@@ -52,10 +60,10 @@ $base-color: rgb(254,252,234);
   color:#f68090 ;
 }
 
-.action-container .access-button {
+.action-container .access-button, .logout-button {
   background-color: transparent;
-  border-color: $red;
-  border-style: solid;
+
+  border: 1px $red solid;
   padding: 2px 18px;
   border-radius: 36px;
 
