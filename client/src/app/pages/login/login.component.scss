@@ -1,0 +1,145 @@
+$blue: #2274A5;
+$red: #D7263D;
+$base-color: rgb(254,252,234);
+$grey: #A0A0A0;
+
+:host {
+  display: flex;
+}
+
+.left-side {
+  flex: 1;
+  background-color: $blue;
+  min-height: 100vh;
+  width: 100%; 
+}
+
+.right-side {
+  flex: 1;
+
+  height: 100dvh;
+  align-items: flex-start;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.header-container {
+  height: 60px;
+  display: flex;
+  align-self: flex-end;
+  align-items: center;
+
+  margin-right: 46px;
+}
+
+.header-container .title {
+  font-family: "Pacifico", cursive;
+  font-size: 24px;
+  color: $red;
+}
+
+.content-container {
+  margin-right: 280px;
+  margin-left: 100px;
+
+  margin-top: 80px;
+  margin-bottom: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  align-self: flex-start;
+  font-size: 46px;
+  color: $red;
+
+  margin: 0;
+}
+
+.input-container p {
+  color: $grey;
+  font-size: 22px;
+  margin: 0;
+  margin-top: 10px;
+}
+
+.input-container input {
+  background-color: transparent;
+  border: solid;
+  border-color: $grey;
+  border-width: thin;
+  border-radius: 16px;
+
+  font-size: 14px;
+
+  padding: 8px 15px;
+  width: 400px;
+
+  margin-top: 10px;
+}
+
+.password {
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.password a:link {
+  text-decoration: none;
+  color: $grey;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+
+  transition: color 0.2s;
+}
+
+.password a:visited {
+  color: $grey;
+}
+
+.password a:hover {
+  color: #767575;
+}
+
+.access-button {
+  margin-top: 20px;
+
+  border-radius: 16px;
+  border: none;
+  background-color: $red;
+  color: $base-color;
+  width: 430px;
+  
+
+  font-family: "Baloo 2", sans-serif;
+  font-size: 20px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.access-button:active {
+  background-color: #f68090;
+}
+
+.register-container {
+  margin-top: 14px;
+}
+
+.register-link:link {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  text-decoration: none;
+  color: $red;
+}
+
+.register-link:visited {
+  color: $red;
+}
