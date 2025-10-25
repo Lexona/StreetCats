@@ -39,11 +39,11 @@ authenticationRouter.post("/auth", async (request, response) => {
     const accessToken = AuthenticationController.issueAccessToken(payload);
     const refreshToken = AuthenticationController.issueRefreshToken(payload);
 
-    // Invia il Token di Aggiornamento come cookie httpOnly (PIÙ SICURO)
     response.cookie('refreshToken', refreshToken, {
-      httpOnly: true, // Il JS del client non può leggerlo
-      secure: process.env.NODE_ENV === 'production', // Solo in HTTPS
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 giorni (come il token)
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === 'production', 
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000 
     });
 
     response.json({accessToken: accessToken});

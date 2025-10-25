@@ -59,6 +59,30 @@ h1 {
   margin: 0;
 }
 
+.error-message {
+  background-color: #ffe6e6;
+  color: $red;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1px solid $red;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  animation: shake 0.3s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.input-container {
+  width: 100%;
+}
+
 .input-container p {
   color: $grey;
   font-size: 22px;
@@ -79,6 +103,17 @@ h1 {
   width: 400px;
 
   margin-top: 10px;
+  transition: border-color 0.2s;
+  
+  &:focus {
+    outline: none;
+    border-color: $red;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
 .password {
@@ -106,6 +141,10 @@ h1 {
   color: #767575;
 }
 
+.button-container {
+  width: 100%;
+}
+
 .access-button {
   margin-top: 20px;
 
@@ -122,11 +161,20 @@ h1 {
   padding-bottom: 4px;
 
   cursor: pointer;
-  transition: background-color 0.3s;
-}
+  transition: background-color 0.3s, opacity 0.2s;
 
-.access-button:active {
-  background-color: #f68090;
+  &:hover:not(:disabled) {
+    background-color: darken($red, 5%);
+  }
+
+  &:active:not(:disabled) {
+    background-color: #f68090;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
 .register-container {
@@ -138,8 +186,13 @@ h1 {
   font-weight: 700;
   text-decoration: none;
   color: $red;
+  transition: color 0.2s;
 }
 
 .register-link:visited {
   color: $red;
+}
+
+.register-link:hover {
+  color: darken($red, 10%);
 }

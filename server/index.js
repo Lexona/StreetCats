@@ -21,7 +21,8 @@ const PORT = 3000;
 app.use(morgan('dev'));
 app.use(cors({
   origin: 'http://localhost:4200',
-  credentials: true
+  credentials: true, 
+  optionsSuccessStatus: 200
 }));
 app.use(express.json());
 app.use(cookieParser());

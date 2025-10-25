@@ -11,19 +11,45 @@
 
   <div class="content-container">
     <h1>Login</h1>
+
+    @if (errorMessage()) {
+      <div class="error-message">
+        {{errorMessage()}}
+      </div>
+    }
+
     <div class="input-container username">
       <p>Username</p>
-      <input type="text" placeholder="Es. KungFuMarta">
+      <input
+        type="text"
+        placeholder="Es. KungFuMarta"
+        [(ngModel)]="username"
+        (keypress)="onKeyPress($event)"
+        [disabled]="isLoading()">
     </div>
 
     <div class="input-container password">
       <p>Password</p>
-      <input type="password">
+      <input
+        type="password"
+        [(ngModel)]="password"
+        (keypress)="onKeyPress($event)"
+        [disabled]="isLoading()">
+
       <a href="">Password dimenticata?</a>
     </div>
 
     <div class="button-container">
-      <button class="access-button">Accedi</button>
+      <button
+        class="access-button"
+        (click)="onLogin()"
+        [disabled]="isLoading()">
+        @if(isLoading()) {
+          Caricamento...
+        } @else {
+          Accedi
+        }
+      </button>
     </div>
 
     <div class="register-container">
