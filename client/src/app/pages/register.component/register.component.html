@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<div class="left-side">
+a
+</div>
+
+<div class="right-side">
+  <div class="header-container">
+    <p class="title">StreetCats</p>
+  </div>
+
+  <div class="content-container">
+    <h1>Sign Up</h1>
+
+    @if (errorMessage()) {
+      <div class="error-message">
+        {{errorMessage()}}
+      </div>
+    }
+
+    @if (successMessage()) {
+      <div class="success-message">
+        {{successMessage()}}
+      </div>
+    }
+
+    <div class="input-container username">
+      <label>Username</label>
+      <input
+      type="text"
+      placeholder="Es. KungFuMarta"
+      [(ngModel)]="username"
+      (keypress)="onKeyPress($event)"
+      [disabled]="isLoading()"
+      >
+    </div>
+
+    <div class="input-container password">
+      <label>Password</label>
+      <input
+      type="password"
+      placeholder="Almeno 6 caratteri"
+      [(ngModel)]="password"
+      (keypress)="onKeyPress($event)"
+      [disabled]="isLoading()"
+      >
+    </div>
+    <div class="input-container password">
+      <label>Conferma Password</label>
+      <input
+      type="password"
+      placeholder="Ripeti la password"
+      [(ngModel)]="confirmPassword"
+      (keypress)="onKeyPress($event)"
+      [disabled]="isLoading()"
+      >
+    </div>
+
+    <div class="button-container">
+      <button
+      class="register-button"
+      (click)="onRegister()"
+      [disabled]="isLoading()"
+      >
+      @if (isLoading()) {
+        Registrazione...
+      } @else {
+        Registrati
+      }
+    </button>
+    </div>
+
+    <div class="login-container">
+      Hai già un account?
+      <a routerLink="/login" class="login-link">Accedi</a>
+    </div>
+  </div>
+</div>

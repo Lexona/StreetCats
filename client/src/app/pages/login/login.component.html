@@ -19,7 +19,7 @@
     }
 
     <div class="input-container username">
-      <p>Username</p>
+      <label>Username</label>
       <input
         type="text"
         placeholder="Es. KungFuMarta"
@@ -29,7 +29,7 @@
     </div>
 
     <div class="input-container password">
-      <p>Password</p>
+      <label>Password</label>
       <input
         type="password"
         [(ngModel)]="password"
@@ -54,7 +54,7 @@
 
     <div class="register-container">
       Non hai un account?
-      <a href="" class="register-link">Iscriviti</a>
+      <a routerLink="/register" class="register-link">Iscriviti</a>
       subito!
     </div>
   </div>
