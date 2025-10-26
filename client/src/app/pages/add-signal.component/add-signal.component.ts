@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { SignalService } from '../../services/signal.service';
 import * as L from 'leaflet';
+import { fixLeafletIconsWithCDN } from '../../../environments/leaflet-icon-fix';
 
 @Component({
   selector: 'app-add-signal.component',
@@ -31,6 +32,7 @@ export class AddSignalComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.initializeMap();
+    fixLeafletIconsWithCDN();
   }
 
   private initializeForm(): void {
