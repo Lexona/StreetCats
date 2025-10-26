@@ -7,7 +7,7 @@
     </div>
 
     <div class="action-container" [class.logged-in]="authService.isAuthenticated()">
-      <a href="">Segnala</a>
+      <a routerLink="/signals">Segnala</a>
 
       @if (authService.isAuthenticated()) {
         <span class="welcome-text">

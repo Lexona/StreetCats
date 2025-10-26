@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<header>
+  <label id="logo">StreetCats</label>
+  <div class="header-links">
+    <a>Segnalazioni</a>
+    <a routerLink="/">Home</a>
+  </div>
+</header>
+
+<main>
+  <div class="form-wrapper">
+    <h1>Aggiungi una Segnalazione</h1>
+    <p class="subtitle">Condividi l'avvistamento di un gatto randagio con la community</p>
+
+    @if (errorMessage()) {
+      <div class="error-alert">
+        {{errorMessage()}}
+      </div>
+    }
+
+    <form [formGroup]="signalForm" (ngSubmit)="onSubmit()">
+
+      <div class="content-container">
+        <!-- LEFT SIDE -->
+  
+        <div class="left-side">
+          <!-- Title -->
+          <div class="form-group">
+            <label for="title">Titolo <span class="required">*</span></label>
+            <input
+            type="text"
+            id="title"
+            formControlName="title"
+            placeholder="Es. Gattino tigrato vicino al Colosseo"
+            [class.invalid]="title?.invalid && title?.touched"
+            />
+            @if (title?.invalid && title?.touched) {
+              <span class="error-text">Il titolo è obbligatorio (min. 3 caratteri)</span>
+            }
+          </div>
+    
+          <!-- Description with Markdown support --> 
+          <div class="form-group">
+            <label for="description">Descrizione</label>
+            <div class="markdown-info">
+              <small>Supporta Markdown: **grassetto**, *corsivo*, [link](url)</small>
+            </div>
+    
+            <textarea
+            id="description"
+            formControlName="description"
+            rows="6"
+            placeholder="Descrivi il gatto avvistato, il suo comportamento, caratteristiche particolari..."
+            ></textarea>
+          </div>
+
+          <!-- Upload Photo -->
+          <div class="form-group">
+            <label>Foto <span class="required">*</span></label>
+    
+            @if (!previewUrl()) {
+              <div class="upload-area" (click)="fileInput.click()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+    
+                <p>Clicca per caricare una foto</p>
+                <small>PNG, JPG o JPEG (max 5MB)</small>
+              </div>
+            } @else {
+              <div class="preview-container">
+                <img [src]="previewUrl()" alt="Preview" class="preview-image" />
+                <button type="button" class="remove-btn" (click)="removeImage()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                  Rimuovi
+                </button>
+              </div>
+            }
+    
+            <input
+            type="file"
+            #fileInput
+            accept="image/*"
+            (change)="onFileSelected($event)"
+            style="display: none;"
+            />
+          </div>
+        </div>
+  
+        <!-- RIGHT SIDE -->
+        
+        <div class="right-side">
+          <!-- Map -->
+          <div class="form-group">
+            <label>Posizione <span class="required">*</span></label>
+            <p class="map-instruction">Clicca sulla mappa o trascina il marker per indicare dove hai avvistato il gatto</p>
+            <div id="map" class="map-container"></div>
+    
+            <div class="coordinates">
+              <div>
+                <label>Latitudine:</label>
+                <input type="text" formControlName="latitude" readonly/>
+              </div>
+              <div>
+                <label>Longitudine:</label>
+                <input type="text" formControlName="longitude" readonly/>
+              </div>
+            </div>
+          </div>
+          <!-- Buttons -->
+          <div class="button-group">
+            <button type="button" class="btn-secondary" (click)="cancel()" [disabled]="isSubmitting()">
+              Annulla
+            </button>
+            <button type="button" class="btn-primary" [disabled]="signalForm.invalid || isSubmitting()">
+              @if (isSubmitting()) {
+                <span class="spinner"></span>
+                Invio in corso...
+              } @else {
+                Crea Segnalazione
+              }
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>

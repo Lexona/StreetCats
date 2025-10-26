@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, BehaviorSubject, tap, catchError, of, throwError } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface LoginResponse{
   accessToken: string;
@@ -16,7 +17,6 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000';
   private accessToken: string | null = null;
 
   //signal for the authentication state
@@ -38,7 +38,7 @@ export class AuthService {
 
   login (username: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(
-      `${this.apiUrl}/auth`,
+      `${environment.apiUrl}/auth`,
       {usr: username, pwd: password}, 
       {withCredentials: true}
     ).pipe (
@@ -58,7 +58,7 @@ export class AuthService {
 
   register(username: string, password: string): Observable<any> {
     return this.http.post(
-      `${this.apiUrl}/register`,
+      `${environment.apiUrl}/register`,
       {usr: username, pwd: password}
     );
   }
@@ -69,7 +69,7 @@ export class AuthService {
 
   logout():Observable<any> {
     return this.http.post(
-      `${this.apiUrl}/logout`,
+      `${environment.apiUrl}/logout`,
       {},
       {withCredentials: true}
     ).pipe(
@@ -86,7 +86,7 @@ export class AuthService {
 
   refreshToken():Observable<LoginResponse> {
     return this.http.post<LoginResponse>(
-      `${this.apiUrl}/refresh`,
+      `${environment.apiUrl}/refresh`,
       {},
       {withCredentials: true}
     ).pipe(
