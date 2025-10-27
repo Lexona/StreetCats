@@ -1,6 +1,7 @@
 import express from "express";
 import { SignalController } from "../controller/signal.controller.js";
 import { applyAuthentication } from "../middleware/authorization.js";
+import { upload } from "../middleware/upload.middleware.js";
 
 export const signalRouter = express.Router();
 
@@ -22,7 +23,7 @@ signalRouter.get("/", SignalController.getSignals);
 /**
  * @swagger
  * /signals/{id}:
- * get:
+ *  get:
  * summary: Returns a specific signal
  * tags: [Signals]
  * parameters:
@@ -46,7 +47,7 @@ signalRouter.get("/:id", SignalController.getSignalById);
  * @swagger
  * /signals:
  * post:
- * summary: Create a new signal
+ * summary: Create a new signal with image upload
  * tags: [Signals]
  * security:
  * - bearerAuth: [] # Indicates that the Bearer Token is required
@@ -68,9 +69,11 @@ signalRouter.get("/:id", SignalController.getSignalById);
  * responses:
  * '201':
  * description: Signal created
+ * '400':
+ * description: Invalid input
  */
 
-signalRouter.post("/", applyAuthentication, SignalController.createSignal);
+signalRouter.post("/", applyAuthentication, upload.single('photo'), SignalController.createSignal);
 
 /**
  * @swagger

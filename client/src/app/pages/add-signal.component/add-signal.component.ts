@@ -41,7 +41,6 @@ export class AddSignalComponent implements OnInit {
       description: [''],
       latitude: [this.defaultLat, [Validators.required]],
       longitude: [this.defaultLng, [Validators.required]],
-      photo_url: ['', [Validators.required]]
     });
   }
 
@@ -113,50 +112,32 @@ export class AddSignalComponent implements OnInit {
         this.previewUrl.set(e.target?.result as string);
       };
       reader.readAsDataURL(file);
-
-      // Convert to Base64 for the form
-      this.convertToBase64(file);
     }
-  }
-
-  private convertToBase64(file: File): void {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const base64 = e.target?.result as string;
-      this.signalForm.patchValue({
-        photo_url: base64
-      });
-    };
-    reader.readAsDataURL(file);
   }
 
   removeImage(): void {
     this.selectedFile.set(null);
     this.previewUrl.set(null);
-    this.signalForm.patchValue({
-      photo_url: ''
-    });
   }
   
   onSubmit(): void {
-    if (this.signalForm.invalid) {
+    if (this.signalForm.invalid || !this.selectedFile()) {
       this.signalForm.markAllAsTouched();
       this.errorMessage.set('Completa tutti i campi obbligatori');
-      return
+      return;
     }
 
     this.isSubmitting.set(true);
     this.errorMessage.set('');
 
-    const signalData = {
-      title: this.signalForm.value.title,
-      description: this.signalForm.value.description || '',
-      photo_url: this.signalForm.value.photo_url,
-      latitude: parseFloat(this.signalForm.value.latitude),
-      longitude: parseFloat(this.signalForm.value.longitude)
-    };
+    const formData = new FormData();
+    formData.append('title', this.signalForm.value.title);
+    formData.append('description', this.signalForm.value.description || '');
+    formData.append('latitude', this.signalForm.value.latitude.toString());
+    formData.append('longitude', this.signalForm.value.longitude.toString());
+    formData.append('photo', this.selectedFile()!);
 
-    this.signalService.createSignal(signalData).subscribe({
+    this.signalService.createSignal(formData).subscribe({
       next: (response) => {
         console.log('Segnalazione creata con successo: ', response);
         this.router.navigate(['/']);

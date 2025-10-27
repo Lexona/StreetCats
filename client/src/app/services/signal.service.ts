@@ -42,8 +42,8 @@ export class SignalService {
     return this.http.get<Signal>(`${this.apiUrl}/${id}`);
   }
 
-  createSignal(signal: CreateSignalDto): Observable<Signal> {
-    return this.http.post<Signal>(this.apiUrl, signal);
+  createSignal(formData: FormData): Observable<Signal> {
+    return this.http.post<Signal>(this.apiUrl, formData);
   }
 
   deleteSignal(id: number): Observable<{message: string}> {

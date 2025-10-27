@@ -118,7 +118,7 @@
             <button type="button" class="btn-secondary" (click)="cancel()" [disabled]="isSubmitting()">
               Annulla
             </button>
-            <button type="button" class="btn-primary" [disabled]="signalForm.invalid || isSubmitting()">
+            <button type="submit" class="btn-primary" [disabled]="signalForm.invalid || isSubmitting()">
               @if (isSubmitting()) {
                 <span class="spinner"></span>
                 Invio in corso...

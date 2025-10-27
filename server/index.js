@@ -7,6 +7,9 @@ import swaggerUI from "swagger-ui-express";
 
 import cookieParser from 'cookie-parser';
 
+import path from 'path';
+import { fileURLToPath } from "url";
+
 import 'dotenv/config.js';
 import {database} from './models/database.model.js';
 
@@ -14,6 +17,8 @@ import { authenticationRouter } from "./routes/authentication.router.js";
 import { signalRouter } from "./routes/signal.router.js";
 import { commentRouter } from "./routes/comment.router.js";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3000;
@@ -27,10 +32,7 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-// test route
-app.get('/', (request, response) => {
-  response.send("prova");
-});
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 // error handler 
 app.use((error, request, response, next) => {
