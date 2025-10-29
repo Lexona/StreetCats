@@ -6,6 +6,8 @@ import { SignalService } from '../../services/signal.service';
 import * as L from 'leaflet';
 import { fixLeafletIconsWithCDN } from '../../../environments/leaflet-icon-fix';
 
+import { GeocodingService, GeocodingResult } from '../../services/geocoding.service';
+
 @Component({
   selector: 'app-add-signal.component',
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
@@ -16,6 +18,7 @@ export class AddSignalComponent implements OnInit {
   private fb = inject(FormBuilder);
   private signalService = inject(SignalService);
   private router = inject(Router);
+  private geocodingService = inject(GeocodingService);
 
   signalForm!: FormGroup;
   map!: L.Map;
@@ -24,6 +27,11 @@ export class AddSignalComponent implements OnInit {
   previewUrl = signal<string | null>(null);
   isSubmitting = signal(false);
   errorMessage = signal<string | null>(null);
+
+  searchAddress = signal<string>('');
+  searchResults = signal<GeocodingResult[]>([]);
+  isSearching = signal(false);
+  showResults = signal(false);
 
   // Predefined coordinates (Naples)
   defaultLat = 40.8518;
@@ -77,6 +85,10 @@ export class AddSignalComponent implements OnInit {
     if (this.marker) {
       this.marker.setLatLng([lat, lng]);
     }
+
+    if (this.map) {
+      this.map.setView([lat, lng], 15);
+    }
   }
 
   private updateCoordinates(lat: number, lng: number): void {
@@ -85,6 +97,53 @@ export class AddSignalComponent implements OnInit {
       longitude: lng
     });
   }
+
+  // search address
+  onSearchAddress(): void {
+    const address = this.searchAddress().trim();
+
+    if (!address) {
+      this.errorMessage.set('Inserisci un indirizzo da cercare');
+      return;
+    }
+
+    this.isSearching.set(true);
+    this.errorMessage.set(null);
+
+    this.geocodingService.searchAddress(address).subscribe({
+      next: (results) => {
+        this.searchResults.set(results);
+        this.showResults.set(true);
+        this.isSearching.set(false);
+
+        if (results.length === 0) {
+          this.errorMessage.set('Nessun risultato trovato. Prova con un altro indirizzo.');
+        }
+      },
+      error: (error) => {
+        console.error('Errore ricerca indirizzo: ', error);
+        this.errorMessage.set('Errore nella ricerca dell\'indirizzo');
+        this.isSearching.set(false);
+      }
+    });
+  }
+
+  selectAddress(result: GeocodingResult): void {
+    const lat = parseFloat(result.lat);
+    const lng = parseFloat(result.lng);
+
+    this.moveMarker(lat, lng);
+    this.updateCoordinates(lat, lng);
+
+    this.showResults.set(false);
+    this.searchAddress.set('');
+    this.searchResults.set([]);
+  }
+
+  closeResults(): void {
+    this.showResults.set(false);
+  }
+
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
