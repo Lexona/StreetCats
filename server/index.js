@@ -17,6 +17,8 @@ import { authenticationRouter } from "./routes/authentication.router.js";
 import { signalRouter } from "./routes/signal.router.js";
 import { commentRouter } from "./routes/comment.router.js";
 
+import { geocodingRouter } from "./routes/geocoding.router.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -31,6 +33,8 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
+
+app.use('/geocoding', geocodingRouter);
 
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
