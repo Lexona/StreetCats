@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, delay, map, throwError } from 'rxjs';
 
 export interface GeocodingResult {
   lat: string,
@@ -29,12 +29,32 @@ export class GeocodingService {
       addressdetails: '1'
     };
 
-    return this.http.get<NominatimResponse[]>(this.nominatimUrl, {params}).pipe(
+    // user agent 
+    const headers = new HttpHeaders({
+      'User-Agent': 'StreetCats/1.0 (marta.pagliuso@hotmail.com)'
+    });
+
+    return this.http.get<NominatimResponse[]>(this.nominatimUrl, {
+      params, 
+      headers
+    }).pipe(
+      delay(1000),
       map(results => results.map(result => ({
         lat: result.lat,
         lng: result.lon,
         display_name: result.display_name
-      })))
+      }))),
+      catchError(error => {
+        console.error('Errore nella ricerca geocoding: ', error);
+
+        if (error.status === 403) {
+          console.error('Nominatim ha bloccato la richiesta. Verifica lo User-Agent.');
+        } else if (error.status === 429) {
+          console.error('Troppe richieste a Nominatim. Attendi prima di riprovare.');
+        }
+
+        return throwError(() => error);
+      })
     );
   }
 }

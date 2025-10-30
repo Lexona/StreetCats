@@ -4,6 +4,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { AddSignalComponent } from './pages/add-signal/add-signal.component';
 import { SignalsListComponent } from './pages/signals-list/signals-list.component';
+import { SignalDetailComponent } from './pages/signal-detail/signal-detail.component';
 
 
 export const routes: Routes = [
@@ -26,5 +27,9 @@ export const routes: Routes = [
   {
     path: 'signals',
     component: SignalsListComponent
+  }, 
+  {
+    path: 'signals/:id',
+    component: SignalDetailComponent
   }
 ];

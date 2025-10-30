@@ -82,7 +82,7 @@ export class SignalController {
 
   static async getSignalById(request, response, next) {
     try {
-      const signal = await Signal.findByPk(id, {
+      const signal = await Signal.findByPk(request.params.id, {
         include: [
           {model: User, attributes: ['userName']},
           {model: Comment}
