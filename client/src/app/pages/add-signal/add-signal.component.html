@@ -106,7 +106,7 @@
                 placeholder="Cerca un indirizzo (es. Via Roma, Napoli)"
                 [value]="searchAddress()"
                 (input)="searchAddress.set($any($event.target).value)"
-                (keyup.enter)="onSearchAddress(); $event.preventDefault()"
+                (keydown.enter)="onSearchAddress(); $event.preventDefault(); $event.stopPropagation()"
                 class="search-input"
                 />
 

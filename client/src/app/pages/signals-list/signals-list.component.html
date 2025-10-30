@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 
 <header>
-  <label id="logo" routerLink="/">StreetCats</label>
+  <label id="logo">StreetCats</label>
   <div class="header-link">
+    <a routerLink="/">Home</a>
     @if (authService.isAuthenticated()) {
       <button class="logout-btn" (click)="authService.logout().subscribe()">Logout</button>
     } @else {
@@ -78,7 +79,7 @@
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                   </svg>
-                  <span>{{signal.User?.userName || 'Anonimo'}}</span>
+                  <span>{{signal.User?.userName}}</span>
                 </div>
                 
                 <div class="meta-item">
@@ -91,10 +92,6 @@
                   <span>{{formatDate(signal.createdAt!)}}</span>
                 </div>
               </div>
-
-              @if (signal.description) {
-                <p class="card-description">{{signal.description}}</p>
-              }
 
               <button class="btn-view" (click)="viewDetail(signal.id!); $event.stopPropagation()">
                 Vedi dettagli

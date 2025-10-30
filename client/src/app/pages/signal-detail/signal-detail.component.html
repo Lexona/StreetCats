@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
 <header>
-  <label id="logo" routerLink="/">StreetCats</label>
+  <label id="logo">StreetCats</label>
   <div class="header-links">
-    <a routerLink="/signals">Segnalazioni</a>
+    <a routerLink="/">Home</a>
     @if (authService.isAuthenticated()) {
       <button class="logout-btn" (click)="authService.logout().subscribe()">Logout</button>
     } @else {

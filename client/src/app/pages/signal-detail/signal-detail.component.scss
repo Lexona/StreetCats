@@ -22,7 +22,6 @@ header {
 #logo {
   font-family: "Pacifico", cursive;
   font-size: 24px;
-  cursor: pointer;
   color: $base-color;
 }
 
@@ -40,6 +39,7 @@ header {
     border: 1px solid $base-color;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 0.9rem;
 
     &:visited {
       color: $base-color;
