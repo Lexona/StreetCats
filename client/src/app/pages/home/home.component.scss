@@ -27,14 +27,14 @@ $base-color: rgb(254,252,234);
 }
 
 .action-container {
-  width: 180px;
+  width: 300px;
   height: inherit;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   &.logged-in {
-    width: 350px; // dimensione quando loggato
+    width: 480px; // dimension when user is logged in
   }
 }
 

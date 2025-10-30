@@ -7,7 +7,7 @@
     </div>
 
     <div class="action-container" [class.logged-in]="authService.isAuthenticated()">
-      <a routerLink="/signals">Segnala</a>
+      <a [routerLink]="authService.isAuthenticated() ? '/add-signals' : '/login'">Aggiungi Segnalazione</a>
 
       @if (authService.isAuthenticated()) {
         <span class="welcome-text">
@@ -30,7 +30,7 @@
     <div class="content-container">
       <h1 class="title">Clicca, segnala, miagola</h1>
       <p class="subtitle">La mappa collaborativa per la sicurezza dei gatti liberi</p>
-      <button class="cats-button">I nostri mici</button>
+      <button class="cats-button" routerLink="/signals">I nostri mici</button>
     </div>
   
     <img src="../../../assets/HomePage/cat-reach.png" alt="gatto" class="cat right-cat">
