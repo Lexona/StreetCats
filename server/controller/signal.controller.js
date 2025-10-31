@@ -85,7 +85,11 @@ export class SignalController {
       const signal = await Signal.findByPk(request.params.id, {
         include: [
           {model: User, attributes: ['userName']},
-          {model: Comment}
+          {
+            model: Comment,
+            include: [{model: User, attributes: ['id', 'userName']}],
+            order: [['createdAt', 'DESC']]
+          }
         ]
       });
 

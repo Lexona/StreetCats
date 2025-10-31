@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+import { Comment } from './comment.service';
+
 export interface Signal {
   id?: number;
   title: string;
@@ -16,6 +18,7 @@ export interface Signal {
   };
   createdAt?: string;
   updatedAt?: string;
+  Comments?: Comment[];
 }
 
 export interface CreateSignalDto {

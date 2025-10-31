@@ -21,7 +21,15 @@ export class CommentController {
         UserId: userId   // Associate the comment with the logged-in user
       });
 
-      response.status(201).json(newComment);
+      // Retrieve the comment just created, including user data
+      const fullComment = await Comment.findByPk(newComment.id, {
+        include: [{
+          model: User, 
+          attributes: ['id', 'userName']
+        }]
+      });
+
+      response.status(201).json(fullComment);
     } catch (error) {
       next(error);
     }

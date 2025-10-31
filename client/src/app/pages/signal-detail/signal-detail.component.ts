@@ -6,10 +6,12 @@ import { AuthService } from '../../services/auth.service';
 import * as L from 'leaflet';
 import { fixLeafletIconsWithCDN } from '../../../environments/leaflet-icon-fix';
 import { MarkdownModule } from 'ngx-markdown';
+import { CommentService, Comment } from '../../services/comment.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-signal-detail.component',
-  imports: [CommonModule, RouterLink, MarkdownModule],
+  imports: [CommonModule, RouterLink, MarkdownModule, FormsModule],
   templateUrl: './signal-detail.component.html',
   styleUrl: './signal-detail.component.scss',
 })
@@ -17,12 +19,18 @@ export class SignalDetailComponent implements OnInit{
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private signalService = inject(SignalService);
+  private commentService = inject(CommentService);
   authService = inject(AuthService);
 
   signal = signal<Signal | null>(null);
   isLoading = signal(true);
   errorMessage = signal<string | null>(null);
   isDeleting = signal(false);
+
+  comments = signal<Comment[]>([]);
+  newCommentText = signal('');
+  isSubmittingComment = signal(false);
+  commentError = signal<string | null>(null);
 
   map!: L.Map;
 
@@ -45,6 +53,7 @@ export class SignalDetailComponent implements OnInit{
     this.signalService.getSignalById(id).subscribe({
       next: (signal) => {
         this.signal.set(signal);
+        this.comments.set(signal.Comments || []);
         this.isLoading.set(false);
 
         // Inizialize map after signal is loaded
@@ -133,5 +142,72 @@ export class SignalDetailComponent implements OnInit{
 
   goBack(): void {
     this.router.navigate(['/signals']);
+  }
+
+  /**
+   * Check if the current user can delete a comment
+   */
+
+  canDeleteComment(comment: Comment): boolean {
+    const currentUser = this.authService.currentUser();
+    return !!(
+      this.authService.isAuthenticated() &&
+      currentUser &&
+      currentUser.id === comment.UserId
+    );
+  }
+
+  /**
+   * send a new comment
+   */
+
+  onAddComment(): void {
+    this.commentError.set(null);
+    const text = this.newCommentText().trim();
+    const signalId = this.signal()?.id;
+
+    if (!text || !signalId) {
+      this.commentError.set('Il commento non può essere vuoto.');
+      return;
+    }
+
+    this.isSubmittingComment.set(true);
+
+    this.commentService.createComment(text, signalId).subscribe({
+      next: (newComment) => {
+        this.comments.update(currentComments => [newComment, ...currentComments]);
+        this.newCommentText.set('');  // reset the textArea
+        this.isSubmittingComment.set(false);
+      },
+      error: (error) => {
+        console.error('Errore invio commento: ', error);
+        this.commentError.set('Errore nell\'invio del commento. Riprova.');
+        this.isSubmittingComment.set(false);
+      }
+    });
+  }
+
+  /**
+   * Delete a comment
+   */
+
+  onDeleteComment(commentId: number): void {
+    if(!confirm('Sei sicuro di voler eliminare questo commento?')) {
+      return;
+    }
+
+    this.commentError.set(null);
+
+    this.commentService.deleteComment(commentId).subscribe({
+      next: () => {
+        this.comments.update(currentComments => 
+          currentComments.filter(comment => comment.id !== commentId)
+        );
+      },
+      error: (error) => {
+        console.error('Errore eliminazione commento: ', error);
+        this.commentError.set('Errore nell\'eliminazione del commento. Riprova.');
+      }
+    });
   }
 }
